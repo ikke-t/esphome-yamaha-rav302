@@ -82,6 +82,11 @@ fix the IP, and you can drop the usb dev.
 
 Yamaha amp manual is [online here](https://de.yamaha.com/files/download/other_assets/6/327556/RX-V450_G_en.pdf).
 
+# Relevant ESPHome manuals
+
+* [Remote Transmitter](https://esphome.io/components/remote_transmitter.html?)
+* [API doc](https://esphome.io/components/api)
+
 Hope this still helps someone, at least it's backup for myself :D
 
 - Ilkka Tengvall
