@@ -1,0 +1,291 @@
+---
+# Remote Transmitter for Yamaha RX-V420 Amplifier from nineties.
+# Remote unit is RAV302.
+
+substitutions:
+  device_name: ir-transmitter
+  friendly_name: esp-kake
+  project_version: "0.0.4"
+  device_description: "Send IR codes"
+  tx_pin: GPIO32
+  rx_pin: GPIO33
+  status_led: GPIO5
+
+esphome:
+  name: '${device_name}'
+  comment: '${device_description}'
+  project:
+    name: "ikke-t.ir-sender"
+    version: "${project_version}"
+
+# Choose the right Platform
+# esp32: https://esphome.io/components/esp32.html
+# esp8266: https://esphome.io/components/esp8266.html
+# esp32:
+#   board: nodemcu-32s
+esp32:
+  board: nodemcu-32s
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+wifi:
+  ssid: !secret ssid
+  password: !secret wpa_password 
+  ap:
+    ssid: '${device_name}'
+
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable improv over serial
+improv_serial:
+
+# Enable Home Assistant API
+api:
+  id: yk_kake
+  encryption:
+    key: !secret api_key
+  services:
+    - service: remote_2code
+      variables:
+        rc_code_1: int
+        rc_code_2: int
+      then:
+        - remote_transmitter.transmit_pioneer:
+            transmitter_id: yamaha_amp
+            rc_code_1: !lambda 'return rc_code_1;'
+            rc_code_2: !lambda 'return rc_code_2;'
+            # repeat:
+            #   times: 2
+    - service: remote_1code
+      variables:
+        rc_code_1: int
+      then:
+        - remote_transmitter.transmit_pioneer:
+            transmitter_id: yamaha_amp
+            rc_code_1: !lambda 'return rc_code_1;'
+
+ota:
+  safe_mode: true
+  reboot_timeout: 10min
+  num_attempts: 5
+  password: "23af23bcfe72a1a0c6f317e50edcf623"
+
+web_server:
+  port: 80
+  auth:
+    username: !secret web_server_username
+    password: !secret web_server_password
+
+remote_transmitter:
+  pin: '${tx_pin}'
+  carrier_duty_percent: 50%
+  id: yamaha_amp
+
+# remote_receiver:
+#   pin:
+#     number: ${rx_pin}
+#     inverted: true
+#   dump: all
+
+button:
+  - name: "ON"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x7E7E
+  - name: "OFF"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x7E7F
+  - name: "Input CD"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E15
+  - name: "Input MD/CD-R"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5EC9
+  - name: "Input Tuner"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E16
+  - name: "Sleep Mode"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E57
+  - name: "Input DVD"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5EC1
+  - name: "Input DTV/CABLE"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E54
+  - name: "Input VCR"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E0F
+  - name: "Input V-Aux"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E55
+  - name: "Vol Up"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E1A
+  - name: "Vol Down"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E1B
+  - name: "Mute"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E1C
+  - name: "Program Stereo"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E88
+  - name: "Program Concert Hall"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E89
+  - name: "Program Jazz club"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E8A
+  - name: "Program Rock Concert"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E8B
+  - name: "Program Music"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5EBC
+  - name: "Program Entertainment"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E8D
+  - name: "Program TV Theater"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E8E
+  - name: "Program Movie"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E8F
+  - name: "Program Dolby DTS"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E90
+  - name: "Program Night"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E95
+  - name: "Program Ex Es"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E97
+  - name: "Program Straight"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E56
+  - name: "Level"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E86
+  - name: "Set Menu"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E9C
+  - name: "Up"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E98
+  - name: "Down"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E99
+  - name: "Left"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E53
+  - name: "Right"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E52
+  - name: "Select"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5EDE
+  - name: "Test"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E85
