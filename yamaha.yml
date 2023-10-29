@@ -71,7 +71,7 @@ ota:
   safe_mode: true
   reboot_timeout: 10min
   num_attempts: 5
-  password: "23af23bcfe72a1a0c6f317e50edcf623"
+  password: !secret ota_pw
 
 web_server:
   port: 80
