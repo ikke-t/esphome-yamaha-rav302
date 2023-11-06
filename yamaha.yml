@@ -5,7 +5,7 @@
 substitutions:
   device_name: ir-transmitter
   friendly_name: esp-kake
-  project_version: "0.0.4"
+  project_version: "0.0.5"
   device_description: "Send IR codes"
   tx_pin: GPIO32
   rx_pin: GPIO33
@@ -253,6 +253,24 @@ button:
       remote_transmitter.transmit_pioneer:
         transmitter_id: yamaha_amp
         rc_code_1: 0x5E9C
+  - name: "Tuner ABCD"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E12
+  - name: "Tuner Up"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E10
+  - name: "Tuner Down"
+    platform: template
+    on_press:
+      remote_transmitter.transmit_pioneer:
+        transmitter_id: yamaha_amp
+        rc_code_1: 0x5E11
   - name: "Up"
     platform: template
     on_press:
