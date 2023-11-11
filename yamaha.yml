@@ -1,12 +1,13 @@
 ---
 # Remote Transmitter for Yamaha RX-V420 Amplifier from nineties.
 # Remote unit is RAV302.
+# Also acts as BLE bluetooth proxy for thermometers
 
 substitutions:
   device_name: ir-transmitter
   friendly_name: esp-kake
-  project_version: "0.0.5"
-  device_description: "Send IR codes"
+  project_version: "0.0.6"
+  device_description: "Send IR codes and proxy BLE"
   tx_pin: GPIO32
   rx_pin: GPIO33
   status_led: GPIO5
@@ -78,6 +79,68 @@ web_server:
   auth:
     username: !secret web_server_username
     password: !secret web_server_password
+
+#
+# Bluetooth sensors
+#
+
+esp32_ble_tracker:
+
+sensor:
+  - platform: ruuvitag
+    mac_address: !secret sauna_mac
+    humidity:
+      name: "Sauna Humidity"
+    temperature:
+      name: "Sauna Temperature"
+    pressure:
+      name: "Sauna Pressure"
+    acceleration:
+      name: "Sauna Acceleration"
+    acceleration_x:
+      name: "Sauna Acceleration X"
+    acceleration_y:
+      name: "Sauna Acceleration Y"
+    acceleration_z:
+      name: "Sauna Acceleration Z"
+    battery_voltage:
+      name: "Sauna Battery Voltage"
+    tx_power:
+      name: "Sauna TX Power"
+    movement_counter:
+      name: "Sauna Movement Counter"
+    measurement_sequence_number:
+      name: "Sauna Measurement Sequence Number"
+
+  - platform: pvvx_mithermometer
+    mac_address: !secret alakerta_mac
+    temperature:
+      name: "alakerran_xiaomi Temperature"
+    humidity:
+      name: "alakerran_xiaomi Humidity"
+    battery_level:
+      name: "alakerran_xiaomi Battery-Level"
+    battery_voltage:
+      name: "alakerran_xiaomi Battery-Voltage"
+    signal_strength:
+      name: "alakerran_xiaomi Signal"
+
+  - platform: pvvx_mithermometer
+    mac_address: !secret ylakerta_mac
+    temperature:
+      name: "ylakerran_xiaomi Temperature"
+    humidity:
+      name: "ylakerran_xiaomi Humidity"
+    battery_level:
+      name: "ylakerran_xiaomi Battery-Level"
+    battery_voltage:
+      name: "ylakerran_xiaomi Battery-Voltage"
+    signal_strength:
+      name: "ylakerran_xiaomi Signal"
+
+#
+# Remote controller
+#
 
 remote_transmitter:
   pin: '${tx_pin}'

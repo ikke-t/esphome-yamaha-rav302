@@ -13,6 +13,11 @@ But if someone is using LIRC, I save here my recorded LIRC codes as well.
 I use Pioneer codes for the transmitter, as they are the shortest. Lirc
 codes below are RC6 codes. Codes for the both here:
 
+## Addition: BLE Proxy
+
+As I have some bluetooth Thermometers, I added this ESP to also act as
+BLE proxy for my Ruuvi and Xiaomi devices.
+
 ## ir-keycodes yamaha rav302
 
 LIRC reading:
@@ -86,6 +91,9 @@ Yamaha amp manual is [online here](https://de.yamaha.com/files/download/other_as
 
 * [Remote Transmitter](https://esphome.io/components/remote_transmitter.html?)
 * [API doc](https://esphome.io/components/api)
+* [Ruuvi BLE proxy](https://esphome.io/components/sensor/ruuvitag)
+* [Xiaomi BLE proxy](https://esphome.io/components/sensor/xiaomi_ble)
+* [Custom Pvvx ATC firmware for Xiaomi](https://github.com/pvvx/ATC_MiThermometer)
 
 Hope this still helps someone, at least it's backup for myself :D
 
